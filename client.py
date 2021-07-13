@@ -43,6 +43,7 @@ def recv_file(client):
                 recv_msg = client.recv(filesize - recv_len)
                 recv_len += len(recv_msg)
                 f.write(recv_msg)
+                print(recv_msg)
             md5.update(recv_msg)            
         md5_recv = client.recv(1024)
         if md5.hexdigest() == md5_recv.decode():
