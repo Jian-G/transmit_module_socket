@@ -42,8 +42,12 @@ def recv_file(client):
                 recv_msg = client.recv(filesize - recv_len)
                 recv_len += len(recv_msg)
                 f.write(recv_msg)
-                print(recv_msg)
-        if filesize == os.path.getSize(filename):
-            print("File {} ({} MB) received correctly.".format(filename, filesize/1024/1024))
-        else:
-            print("File {} receive failed.".format(filename))
+            end_time = time.time()
+            during_time = end_time - start_time
+            filesize_mb = filesize / 1024 / 1024
+        print("\n{}({}MB) received correctly! Time: {}s\t Speed: {} MB/s".
+              format(filename.split("/")[-1], round(filesize_mb), round(during_time,2), round(filesize_mb / during_time, 2)))
+        # if filesize == os.path.getsize(filename):
+        #     print("File {} ({} MB) received correctly.".format(filename, filesize_mb))
+        # else:
+        #     print("File {} receive failed.".format(filename))

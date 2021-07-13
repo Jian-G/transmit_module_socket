@@ -16,7 +16,6 @@ def send_loop(type):
         # count = 0
         while True:
             conn, addr = server.accept()
-            print(addr)
             # count += 1
             print("Cloud Server(I) {} : {} has connected to Edge client(others) {} : {}".
                   format(core.CLOUD_HOST,core.CLOUD_SENTTO_EDGE,addr[0],addr[1]))
@@ -64,7 +63,7 @@ def send_file(conn, filename):
         # 发送文件信息
         data = f.read()
         conn.sendall(data)
-    print("File {} ({} MB) send finish.".format(filename, filesize/1024/1024))
+    print("File {} ({} MB) send finish.".format(filename, round(filesize/1024/1024,2)))
 
 if __name__ == '__main__':
     edge_server = Thread(target=send_loop, args=("cloud", ))
