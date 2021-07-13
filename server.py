@@ -16,6 +16,7 @@ def send_loop(type):
         # count = 0
         while True:
             conn, addr = server.accept()
+            print(addr)
             # count += 1
             print("Cloud Server(I) {} : {} has connected to Edge client(others) {} : {}".
                   format(core.CLOUD_HOST,core.CLOUD_SENTTO_EDGE,addr[0],addr[1]))
@@ -43,8 +44,8 @@ def send_loop(type):
                         tensor_dict[filename] = 0
                 for filename, status in tensor_dict.items():
                     if status == 0:
-                        send_file(conn, filename) 
-                        tensor_dict[filename] = 1   
+                        send_file(conn, filename)
+                        tensor_dict[filename] = 1
 
 
 def send_file(conn, filename):
@@ -60,12 +61,9 @@ def send_file(conn, filename):
     # 发送头部信息
     conn.send(head_info.encode('utf-8'))
     with open(filename, 'rb') as f:
-        # 16进制摘要
-        m = hashlib.md5()
-        for line in f:
-            m.update(line)
-            conn.send(line)
-        conn.send(m.hexdigest().encode())
+        # 发送文件信息
+        data = f.read()
+        conn.sendall(data)
     print("File {} ({} MB) send finish.".format(filename, filesize/1024/1024))
 
 if __name__ == '__main__':

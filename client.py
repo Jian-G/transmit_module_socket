@@ -1,4 +1,4 @@
-import json
+import json, os
 import socket,hashlib
 import struct
 import core
@@ -34,7 +34,6 @@ def recv_file(client):
         while recv_len < filesize:
             precent = recv_len / filesize
             process_bar(precent)
-            md5 = hashlib.md5()
             if(filesize - recv_len > core.BUFFER_SIZE):
                 recv_msg = client.recv(core.BUFFER_SIZE)
                 f.write(recv_msg)
@@ -44,9 +43,7 @@ def recv_file(client):
                 recv_len += len(recv_msg)
                 f.write(recv_msg)
                 print(recv_msg)
-            md5.update(recv_msg)            
-        md5_recv = client.recv(1024)
-        if md5.hexdigest() == md5_recv.decode():
+        if filesize == os.path.getSize(filename):
             print("File {} ({} MB) received correctly.".format(filename, filesize/1024/1024))
         else:
             print("File {} receive failed.".format(filename))
