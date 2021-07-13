@@ -1,4 +1,5 @@
 import socket,os,hashlib
+from time import time
 import core
 import glob
 import json
@@ -45,6 +46,7 @@ def send_loop(type):
                     if status == 0:
                         send_file(conn, filename)
                         tensor_dict[filename] = 1
+                time.sleep(2)
 
 
 def send_file(conn, filename):
