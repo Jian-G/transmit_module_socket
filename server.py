@@ -65,7 +65,7 @@ def send_file(conn, filename):
         # 发送文件信息
         data = f.read()
         conn.sendall(data)
-    print("\nFile {} ({} MB) send finish.".format(filename, round(filesize/1024/1024,2)))
+    print("\nFile {} ({} MB) send finish.".format(filename, round(filesize/1000/1000,2)))
 
 if __name__ == '__main__':
     edge_server = Thread(target=send_loop, args=("cloud", ))

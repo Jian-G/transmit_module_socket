@@ -44,7 +44,7 @@ def recv_file(client):
                 f.write(recv_msg)
             end_time = time.time()
             during_time = end_time - start_time
-            filesize_mb = filesize / 1024 / 1024
+            filesize_mb = filesize / 1000 /1000
         print("\n{}({}MB) received correctly! Time: {}s\t Speed: {} MB/s".
               format(filename.split("/")[-1], round(filesize_mb), round(during_time,2), round(filesize_mb / during_time, 2)))
         # if filesize == os.path.getsize(filename):
