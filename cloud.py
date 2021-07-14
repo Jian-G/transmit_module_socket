@@ -10,13 +10,14 @@ def parse_args():
     parser.add_argument('--edge_host', type=str, default='', help='host of edge')
     parser.add_argument('--cloud_port', type=int, default=0, help='port of cloud sendto edge')
     parser.add_argument('--edge_port', type=int, default=0, help="port of edge sendto cloud")
-
+    args = parser.parse_args()
+    return args
 if __name__ == '__main__':
     args = parse_args()
-    core.CLOUD_HOST = args.cloud_host if args.cloud_host != '' else core.CLOUD_HOST
-    core.EDGE_HOST = args.edge_host if args.edge_host != '' else core.EDGE_HOST
-    core.CLOUD_SENTTO_EDGE = args.cloud_port if args.cloud_port != 0 else core.CLOUD_SENTTO_EDGE
-    core.EDGE_SENDTO_CLOUD = args.edge_port if args.edge_port != 0 else core.EDGE_SENDTO_CLOUD
+    core.CLOUD_HOST = args.cloud_host if args.cloud_host else core.CLOUD_HOST
+    core.EDGE_HOST = args.edge_host if args.edge_host else core.EDGE_HOST
+    core.CLOUD_SENTTO_EDGE = args.cloud_port if args.cloud_port else core.CLOUD_SENTTO_EDGE
+    core.EDGE_SENDTO_CLOUD = args.edge_port if args.edge_port else core.EDGE_SENDTO_CLOUD
    
     cloud_server_thread = Thread(target=send_loop, args=("cloud", ))
     cloud_client_thread = Thread(target=receive_loop, args=("cloud", ))
