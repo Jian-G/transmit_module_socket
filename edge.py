@@ -15,7 +15,6 @@ def parse_args():
 
 if __name__ == '__main__':
     args = parse_args()
-    print(args)
     core.CLOUD_HOST = args.cloud_host if args.cloud_host else core.CLOUD_HOST
     core.EDGE_HOST = args.edge_host if args.edge_host else core.EDGE_HOST
     core.CLOUD_SENTTO_EDGE = args.cloud_port if args.cloud_port else core.CLOUD_SENTTO_EDGE
