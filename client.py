@@ -1,5 +1,5 @@
 import json, os
-import socket,hashlib
+import socket
 import struct
 import core
 import json
