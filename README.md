@@ -1,4 +1,5 @@
 # transmit_module_socket
+**基于Socket的通信模块**
 ## 文件说明
 
 - client.py：客户端接收文件，对于云接收tensor，对于端接收分割模型；
@@ -18,10 +19,10 @@
 
 ```bash
 # 云线程
-$ python3 cloud.py --cloud_host xxx.xxx.xxx.xxx --edge_host xxx.xxx.xxx.xxx --cloud_port n --edge_port n 
+$ python3 cloud.py --cloud_host "xxx.xxx.xxx.xxx" --edge_host "xxx.xxx.xxx.xxx" --cloud_port n --edge_port n 
 
 # 端线程
-$ python3 edge.py --cloud_host xxx.xxx.xxx.xxx --edge_host xxx.xxx.xxx.xxx --cloud_port n --edge_port n 
+$ python3 edge.py --cloud_host "xxx.xxx.xxx.xxx" --edge_host "xxx.xxx.xxx.xxx" --cloud_port n --edge_port n 
 ```
 
 Tips
