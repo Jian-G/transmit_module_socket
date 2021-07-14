@@ -46,7 +46,7 @@ def send_loop(type):
                     if status == 0:
                         send_file(conn, filename)
                         tensor_dict[filename] = 1
-                time.sleep(2)
+                # time.sleep(2)
 
 
 def send_file(conn, filename):
@@ -65,7 +65,7 @@ def send_file(conn, filename):
         # 发送文件信息
         data = f.read()
         conn.sendall(data)
-    print("File {} ({} MB) send finish.".format(filename, round(filesize/1024/1024,2)))
+    print("\nFile {} ({} MB) send finish.".format(filename, round(filesize/1024/1024,2)))
 
 if __name__ == '__main__':
     edge_server = Thread(target=send_loop, args=("cloud", ))
