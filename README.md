@@ -18,10 +18,10 @@
 
 ```bash
 # 云线程
-$ python3 --cloud_host xxx.xxx.xxx.xxx --edge_host xxx.xxx.xxx.xxx --cloud_port n --edge_port n cloud.py
+$ python3 cloud.py --cloud_host xxx.xxx.xxx.xxx --edge_host xxx.xxx.xxx.xxx --cloud_port n --edge_port n 
 
 # 端线程
-$ python3 --cloud_host xxx.xxx.xxx.xxx --edge_host xxx.xxx.xxx.xxx --cloud_port n --edge_port n edge.py
+$ python3 edge.py --cloud_host xxx.xxx.xxx.xxx --edge_host xxx.xxx.xxx.xxx --cloud_port n --edge_port n 
 ```
 
 Tips
