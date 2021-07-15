@@ -7,7 +7,7 @@
 - `cloud.py`：启动云的发送和接收线程；
 - `edge.py`：启动端的发送和接收线程；
 - `core.py`：常量定义，包括host、port、buffersize等内容
-- data：数据存放文件夹（在示例中：模型暂存为.pt文件，tensor暂存为.txt文件）
+- data：数据存放文件夹（在示例中：模型暂存为.pdparams文件，tensor暂存为.txt文件）
     - send：发送文件夹
         - model：云要发送的切割模型
         - tensor：端要发送的tensor特征
@@ -32,15 +32,15 @@ Tips
 ## 运行示例（云ip通常为固定值，故仅设置端ip）：
 
 ### 云服务器
-<img src="./images/cloud_demo.png" width=500/>
+<img src="./images/cloud_demo.png" width=600/>
 
 ### 端设备
-<img src="./images/device_demo.png" width=500/>
+<img src="./images/edge_demo.png" width=600/>
 
 ## 通信传输模块
 
 ### 流程图及解释
-<img src="./images/transmit_time_schedule.png" width=500/>
+<img src="./images/transmit_time_schedule.png" width=600/>
 
 该项目涉及通信相关的内容：
 
@@ -231,9 +231,9 @@ Tips
     </tbody>
 </table>
 
-<img src="./images/ziptime.png" width=500/>
+<img src="./images/ziptime.png" width=600/>
 
-<img src="./images/zipratio.png" width=500>
+<img src="./images/zipratio.png" width=600>
 
 ### 解压时间对比
 <table>
@@ -307,4 +307,4 @@ Tips
     </tbody>
 </table>
 
-<img src="./images/unziptime.png" width=500/>
+<img src="./images/unziptime.png" width=600/>
