@@ -27,8 +27,7 @@ $ python3 edge.py --cloud_host "xxx.xxx.xxx.xxx" --edge_host "xxx.xxx.xxx.xxx" -
 
 Tips
 1. host为必须项，port为可选项，默认为：`8080（CLOUD_SENDTO_EDGE）`和`8081（EDGE_SENDTO_CLOUD）`。
-2. 云和端的启动参数应相同。**启动间隔小于5s。**
-3. 接收和发送文件说明：模型包括`.pdmodel`模型架构和`.pdiparams`模型参数两个文件，特征为`.pdtensor`文件。
+2. 接收和发送文件说明：模型包括`.pdmodel`模型架构和`.pdiparams`模型参数两个文件，特征为`.pdtensor`文件。
 
 ## 运行示例（云ip通常为固定值，故仅设置端ip）：
 
@@ -62,7 +61,7 @@ Tips
 端：
 
 1. 发送特征线程，该线程轮询检测`data/send/tensor`中是否有新生成的tensor，若有则发送至云；
-2. 接收模型线程，该线程连接至云发送短裤，接收切割模型并保存至`data/receive/model`；
+2. 接收模型线程，该线程连接至云发送端口，接收切割模型并保存至`data/receive/model`；
 
 ## 数据压缩模块
 
