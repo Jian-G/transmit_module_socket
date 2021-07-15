@@ -37,7 +37,7 @@ def send_loop(type):
             conn, addr = server.accept()
             # count += 1
             print("Edge Server(I) {} : {} has connected to Cloud client(others) {} : {}".
-                  format(core.CLOUD_HOST,core.CLOUD_SENTTO_EDGE,addr[0],addr[1]))
+                  format(core.EDGE_HOST,core.EDGE_SENDTO_CLOUD,addr[0],addr[1]))
             while True:
                 for filename in glob.glob(r'data/send/tensor/*.txt'):
                     if(filename not in tensor_dict.keys()):
