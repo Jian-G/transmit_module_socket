@@ -21,7 +21,7 @@ def send_loop(type):
             print("Cloud Server(I) {} : {} has connected to Edge client(others) {} : {}".
                   format(core.CLOUD_HOST,core.CLOUD_SENTTO_EDGE,addr[0],addr[1]))
             while True:
-                for filename in glob.glob(r'data/send/model/*.pt'):
+                for filename in glob.glob(r'data/send/model/*.pdparams'):
                     if(filename not in model_dict.keys()):
                         model_dict[filename] = 0
                 for filename, status in model_dict.items():
