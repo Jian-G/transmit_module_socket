@@ -88,7 +88,7 @@ def unzip_by_tarfile(input):
     return round(end_time - start_time, 2) 
 
 if __name__ == "__main__":
-    filename = "recovery.pdf"
+    filename = "data/ziptest/params"
     originsize = round(os.path.getsize(filename)/1000/1000, 2)
     print("Filename : {}\tOrigin Size : {} MB".format(filename, originsize))
 
