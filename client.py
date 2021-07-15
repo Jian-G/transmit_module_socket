@@ -8,17 +8,19 @@ from processbar import process_bar
 
 def receive_loop(type):
     flag = -1
-    client = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
     if type == "cloud":
         while flag != 0:
+            client = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
             flag = client.connect_ex((core.EDGE_HOST, core.EDGE_SENDTO_CLOUD))
             if flag != 0:
                 print("Edge refused to connect, please start edge process!")
             time.sleep(2)       
     elif type == "edge":
         while flag != 0:
+            client = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
             flag = client.connect_ex((core.CLOUD_HOST, core.CLOUD_SENTTO_EDGE))
             if flag != 0 :
+                print(flag)
                 print("Cloud refused to connect, please start cloud process!")
             time.sleep(2)
     while True:
