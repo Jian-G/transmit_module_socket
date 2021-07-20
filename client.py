@@ -57,7 +57,3 @@ def recv_file(client):
             filesize_mb = filesize / 1000 /1000
         print("\n{}({}MB) received correctly! Time: {}s\t Speed: {} MB/s".
               format(filename.split("/")[-1], round(filesize_mb), round(during_time,2), round(filesize_mb / during_time, 2)))
-        # if filesize == os.path.getsize(filename):
-        #     print("File {} ({} MB) received correctly.".format(filename, filesize_mb))
-        # else:
-        #     print("File {} receive failed.".format(filename))

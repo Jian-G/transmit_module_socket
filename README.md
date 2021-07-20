@@ -40,7 +40,7 @@ Tips
 ## 通信传输模块
 
 ### 流程图及解释
-<img src="./images/transmit_time_schedule.png" width=600/>
+<img src="./images/transmit_schedule.jpg" width=600/>
 
 该项目涉及通信相关的内容：
 
