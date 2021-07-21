@@ -9,13 +9,13 @@
 - `core.py`：常量定义，包括host、port、buffersize等内容；
 - `load_model`：模型部署函数，包括云和端加载方法；
 - `zip.py`：数据压缩，包括5种算法库，已封装；
-- data：数据存放文件夹（在示例中：模型暂存为.pdparams文件，tensor暂存为.txt文件）
+- data：数据存放文件夹（**该版本tensor文件夹省略，直接从内存中传输tensor**）
     - send：发送文件夹
         - model：云要发送的切割模型
-        - tensor：端要发送的tensor特征
+        - ~~tensor：端要发送的tensor特征~~
     - receive：接收文件夹
         - model：端接收到的切割模型
-        - tensor：云接收到的tensor特征
+        - ~~tensor：云接收到的tensor特征~~
 
 ## 启动方式
 
@@ -29,12 +29,12 @@ $ python3 edge.py --cloud_host "xxx.xxx.xxx.xxx" --edge_host "xxx.xxx.xxx.xxx" -
 
 Tips
 1. host为必须项，port为可选项，默认为：`8080（CLOUD_SENDTO_EDGE）`和`8081（EDGE_SENDTO_CLOUD）`。
-2. 接收和发送文件说明：模型包括`.pdmodel`模型架构和`.pdiparams`模型参数两个文件，特征为`.pdtensor`文件。
+2. 接收和发送文件说明：模型包括`.pdmodel`模型架构和`.pdiparams`模型参数两个文件，~~特征为`.pdtensor`文件~~。
 
-## 运行示例（云ip通常为固定值，故仅设置端ip）：
+## 运行示例：
 
 ### 云服务器
-<img src="./images/cloud_demo.png" width=600/>
+<img src="./images/cloud_demo.jpg" width=600/>
 
 ### 端设备
 <img src="./images/edge_demo.png" width=600/>
@@ -47,9 +47,10 @@ Tips
 该项目涉及通信相关的内容：
 
 1. 云下发切割后的部分模型给端设备，包括模型骨架`*.pdmodel`和模型参数`*.pdiparams`两个文件；
-2. 端根据部分模型进行计算，得到中间特征`*.pdtensor`；
-3. 端返回得到的中间tensor给云；
-4. 云根据中间tensor进行剩余部分的计算，得到最终结果。
+2. 输入待检测内容，端根据部分模型进行计算得到中间tensor；
+3. 端使用memoryview进行tensor的传输；
+4. 云根据中间tensor进行剩余部分的计算，得到最终结果；
+5. 云发送最终结果给端进行展示。
 
 ### 线程说明
 
@@ -58,11 +59,11 @@ Tips
 云：
 
 1. 发送模型线程，该线程轮询检测`data/send/model`中是否有新产生的模型，若有则发送至端；
-2. 接收特征线程，该线程连接至端发送端口，接收中间特征并保存至`data/receive/tensor`；
+2. 接收特征线程，该线程连接至端发送端口，接收中间特征~~并保存至`data/receive/tensor`；~~
 
 端：
 
-1. 发送特征线程，该线程轮询检测`data/send/tensor`中是否有新生成的tensor，若有则发送至云；
+1. 发送特征线程，该线程~~轮询检测`data/send/tensor`中是否有新生成的tensor，若有则发送至云~~定时随机生成tensor；
 2. 接收模型线程，该线程连接至云发送端口，接收切割模型并保存至`data/receive/model`；
 
 ## 数据压缩模块

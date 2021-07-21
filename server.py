@@ -90,7 +90,7 @@ def send_tensor(conn, tensor, name):
     while len(view):
         nsent = conn.send(view)
         view = view[nsent:]
-    print("\nTensor {} ({} MB) send finish.\t Shape: {}".format(name, round(tensorsize/1000,2), tensor.shape))
+    print("\nTensor {} ({} KB) send finish.\t Shape: {}".format(name, round(tensorsize/1000,2), tensor.shape))
 
 
 if __name__ == '__main__':

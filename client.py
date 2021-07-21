@@ -64,12 +64,8 @@ def recv_file(client):
 
 def recv_tensor(client):
     # 解析头部长度
-    while(True):
-        head_struct = client.recv(4)
-        print(head_struct)
-        head_len = struct.unpack('i', head_struct)[0]
-        if head_len != 0:
-            break
+    head_struct = client.recv(4)
+    head_len = struct.unpack('i', head_struct)[0]
     # 解析文件信息
     file_info = client.recv(head_len)
     print(head_len)
