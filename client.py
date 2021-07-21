@@ -5,7 +5,7 @@ import core
 import json
 import time
 from processbar import process_bar
-
+from load_model import cloud_load_tensor
 def receive_loop(type):
     flag = -1
     if type == "cloud":
@@ -14,7 +14,9 @@ def receive_loop(type):
             flag = client.connect_ex((core.EDGE_HOST, core.EDGE_SENDTO_CLOUD))
             if flag != 0:
                 print("Edge refused to connect, please start edge process!")
-            time.sleep(2)       
+            time.sleep(2)
+        while True:
+            recv_file(client)       
     elif type == "edge":
         while flag != 0:
             client = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
@@ -23,8 +25,8 @@ def receive_loop(type):
                 print(flag)
                 print("Cloud refused to connect, please start cloud process!")
             time.sleep(2)
-    while True:
-        recv_file(client)
+        while True:
+            recv_tensor(client)  
 
 def recv_file(client):
     # 解析头部长度
@@ -57,7 +59,16 @@ def recv_file(client):
             filesize_mb = filesize / 1000 /1000
         print("\n{}({}MB) received correctly! Time: {}s\t Speed: {} MB/s".
               format(filename.split("/")[-1], round(filesize_mb), round(during_time,2), round(filesize_mb / during_time, 2)))
-        # if filesize == os.path.getsize(filename):
-        #     print("File {} ({} MB) received correctly.".format(filename, filesize_mb))
-        # else:
-        #     print("File {} receive failed.".format(filename))
+
+def recv_tensor(client):
+    # 解析头部长度
+    head_struct = client.recv(4)
+    head_len = struct.unpack('i', head_struct)[0]
+    # 解析文件信息
+    file_info = client.recv(head_len)
+    file_info = json.loads(file_info.decode('utf-8'))
+    filesize = file_info['filesize']
+    filename = file_info['filename']
+    tensor = client.recv(core.BUFFER_SIZE)
+    results = cloud_load_tensor(path_prefix="./data/send/model/server_infer_resnet18_cifar10",tensor=tensor)
+    print("{}:{}".format(filename, results))
