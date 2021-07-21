@@ -6,6 +6,8 @@ import json
 import struct
 from threading import Thread
 from load_model import edge_load_model
+import numpy as np
+import pickle
 model_dict = []
 param_dict = []
 tensor_dict = []
@@ -73,7 +75,7 @@ def send_file(conn, filename):
     print("\nFile {} ({} MB) send finish.".format(filename, round(filesize/1000/1000,2)))
 
 def send_tensor(conn, tensor, name):
-    tensorsize = sys.getsizeof(tensor)
+    tensorsize = sys.getsizeof(tensor.tobytes())
     dict = {
         'filename': name,
         'filesize': tensorsize,
