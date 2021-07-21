@@ -1,5 +1,5 @@
 import socket,os,sys
-from time import time
+import time
 import core
 import glob
 import json
@@ -43,10 +43,10 @@ def send_loop(type):
             while True:
                 if(os.path.exists("./data/receive/model/client_infer_resnet18_cifar10.pdiparams") and
                 os.path.exists("./data/receive/model/client_infer_resnet18_cifar10.pdmodel")):
+                    time.sleep(5)
                     tensor = edge_load_model(path_prefix="./data/receive/model/client_infer_resnet18_cifar10")
                     send_tensor(conn, tensor, index)
                     index += 1
-                    time.sleep(10)
                 # for filename in glob.glob(r'data/send/tensor/*.txt'):
                 #     if(filename not in tensor_dict):
                 #         tensor_dict.append(filename)
@@ -76,6 +76,7 @@ def send_tensor(conn, tensor, name):
     dict = {
         'filename': name,
         'filesize': tensorsize,
+        'tensorshape':tensor.shape
     }
     head_info = json.dumps(dict)
     head_info_len = struct.pack('i', len(head_info))
@@ -83,8 +84,12 @@ def send_tensor(conn, tensor, name):
     conn.send(head_info_len)
     # 发送头部信息
     conn.send(head_info.encode('utf-8'))
-    conn.send(tensor.tobytes())
-    print("\nFile {} ({} MB) send finish.".format(name, round(tensorsize/1000/1000,2)))
+    # 利用memoryview发送大数组
+    view = memoryview(tensor).cast("B")
+    while len(view):
+        nsent = conn.send(view)
+        view = view[nsent:]
+    print("\nTensor {} ({} MB) send finish.".format(name, round(tensorsize/1000,2)))
 
 
 if __name__ == '__main__':

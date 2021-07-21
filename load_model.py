@@ -38,14 +38,16 @@ def cloud_load_tensor(path_prefix, tensor):
     results = exe.run(inference_program,
               feed={feed_target_names[0]: tensor},
               fetch_list=fetch_targets)
-    results = results[0].tolist()
+    result = results[0].tolist()
+    print(result)
     return [result[i].index(max(result[i])) for i in range(len(result))]
 
 if __name__ == "__main__":
     for filename in glob.glob(r'data/send/model/client_*_infer.pdmodel'):
         print(filename)
 
-    tensor = edge_load_model()
+    tensor = edge_load_model("./data/send/model/client_infer_resnet18_cifar10")
+    print(type(tensor))
     result = cloud_load_tensor(tensor)[0].tolist()
     print([result[i].index(max(result[i])) for i in range(len(result))])
 

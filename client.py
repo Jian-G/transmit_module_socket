@@ -1,4 +1,4 @@
-import json, os
+import json, os, sys
 import socket
 import struct
 import core
@@ -7,6 +7,7 @@ import time
 import numpy as np
 from processbar import process_bar
 from load_model import cloud_load_tensor
+import pickle
 def receive_loop(type):
     flag = -1
     if type == "cloud":
@@ -63,14 +64,23 @@ def recv_file(client):
 
 def recv_tensor(client):
     # 解析头部长度
-    head_struct = client.recv(4)
-    head_len = struct.unpack('i', head_struct)[0]
+    while(True):
+        head_struct = client.recv(4)
+        print(head_struct)
+        head_len = struct.unpack('i', head_struct)[0]
+        if head_len != 0:
+            break
     # 解析文件信息
     file_info = client.recv(head_len)
+    print(head_len)
     file_info = json.loads(file_info.decode('utf-8'))
     filesize = file_info['filesize']
     filename = file_info['filename']
-    recv = client.recv(core.BUFFER_SIZE)
-    tensor = np.frombuffer(recv, dtype=core.NUMPY_TYPE)
+    tensorshape = file_info['tensorshape']
+    tensor = np.array(np.random.random(tensorshape), dtype=core.NUMPY_TYPE)
+    view = memoryview(tensor).cast('B')
+    while len(view):
+        nrecv = client.recv_into(view)
+        view = view[nrecv:]
     results = cloud_load_tensor(path_prefix="./data/send/model/server_infer_resnet18_cifar10",tensor=tensor)
-    print("{}:{}".format(filename, results))
+    print("File {}\t Result:{}".format(filename, results))
