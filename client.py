@@ -16,7 +16,7 @@ def receive_loop(type):
                 print("Edge refused to connect, please start edge process!")
             time.sleep(2)
         while True:
-            recv_file(client)       
+            recv_tensor(client)       
     elif type == "edge":
         while flag != 0:
             client = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
@@ -26,7 +26,7 @@ def receive_loop(type):
                 print("Cloud refused to connect, please start cloud process!")
             time.sleep(2)
         while True:
-            recv_tensor(client)  
+            recv_file(client)  
 
 def recv_file(client):
     # 解析头部长度
