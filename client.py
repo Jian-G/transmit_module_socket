@@ -4,6 +4,7 @@ import struct
 import core
 import json
 import time
+import numpy as np
 from processbar import process_bar
 from load_model import cloud_load_tensor
 def receive_loop(type):
@@ -69,6 +70,7 @@ def recv_tensor(client):
     file_info = json.loads(file_info.decode('utf-8'))
     filesize = file_info['filesize']
     filename = file_info['filename']
-    tensor = client.recv(core.BUFFER_SIZE)
+    recv = client.recv(core.BUFFER_SIZE)
+    tensor = np.frombuffer(recv, dtype=core.NUMPY_TYPE)
     results = cloud_load_tensor(path_prefix="./data/send/model/server_infer_resnet18_cifar10",tensor=tensor)
     print("{}:{}".format(filename, results))

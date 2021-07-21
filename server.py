@@ -1,4 +1,4 @@
-import socket,os
+import socket,os,sys
 from time import time
 import core
 import glob
@@ -72,7 +72,7 @@ def send_file(conn, filename):
     print("\nFile {} ({} MB) send finish.".format(filename, round(filesize/1000/1000,2)))
 
 def send_tensor(conn, tensor, name):
-    tensorsize = os.path.getsize(tensor)
+    tensorsize = sys.getsizeof(tensor)
     dict = {
         'filename': name,
         'filesize': tensorsize,
@@ -83,8 +83,8 @@ def send_tensor(conn, tensor, name):
     conn.send(head_info_len)
     # 发送头部信息
     conn.send(head_info.encode('utf-8'))
-    conn.send(tensor)
-    print("\nFile {} ({} MB) send finish.".format(name, round(tensor/1000/1000,2)))
+    conn.send(tensor.tobytes())
+    print("\nFile {} ({} MB) send finish.".format(name, round(tensorsize/1000/1000,2)))
 
 
 if __name__ == '__main__':
