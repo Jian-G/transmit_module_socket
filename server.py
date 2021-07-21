@@ -78,7 +78,7 @@ def send_tensor(conn, tensor, name):
     dict = {
         'filename': name,
         'filesize': tensorsize,
-        'tensorshape': tensor.shape
+        'tensorshape':tensor.shape
     }
     head_info = json.dumps(dict)
     head_info_len = struct.pack('i', len(head_info))
@@ -91,7 +91,7 @@ def send_tensor(conn, tensor, name):
     while len(view):
         nsent = conn.send(view)
         view = view[nsent:]
-    print("\nTensor {} ({} KB) send finish.".format(name, round(tensorsize/1000,2)))
+    print("\nTensor {} ({} MB) send finish.".format(name, round(tensorsize/1000,2)))
 
 
 if __name__ == '__main__':
