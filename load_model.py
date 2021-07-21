@@ -1,12 +1,11 @@
 import paddle
 import glob
 import numpy as np
-
+import time
 def edge_load_model(path_prefix):
     paddle.enable_static()
-
     startup_prog = paddle.static.default_startup_program()
-
+    start_time = time.time()
 
     exe = paddle.static.Executor(paddle.CPUPlace())
     exe.run(startup_prog)
@@ -19,13 +18,13 @@ def edge_load_model(path_prefix):
     results = exe.run(inference_program,
               feed={feed_target_names[0]: tensor_img},
               fetch_list=fetch_targets)
-    
-    return np.array(results[0])
+    end_time = time.time()
+    return np.array(results[0]), end_time - start_time
 
 def cloud_load_tensor(path_prefix, tensor):
     paddle.enable_static()
     startup_prog = paddle.static.default_startup_program()
-
+    start_time = time.time()
 
     exe = paddle.static.Executor(paddle.CPUPlace())
     exe.run(startup_prog)
@@ -39,8 +38,8 @@ def cloud_load_tensor(path_prefix, tensor):
               feed={feed_target_names[0]: tensor},
               fetch_list=fetch_targets)
     result = results[0].tolist()
-    print(result)
-    return [result[i].index(max(result[i])) for i in range(len(result))]
+    end_time = time.time()
+    return [result[i].index(max(result[i])) for i in range(len(result))], end_time - start_time
 
 if __name__ == "__main__":
     for filename in glob.glob(r'data/send/model/client_*_infer.pdmodel'):
