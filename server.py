@@ -41,10 +41,12 @@ def send_loop(type):
                   format(core.EDGE_HOST,core.EDGE_SENDTO_CLOUD,addr[0],addr[1]))
             index = 0
             while True:
-                tensor = edge_load_model(path_prefix="./data/receive/model/client_infer_resnet18_cifar10")
-                send_tensor(conn, tensor, index)
-                index += 1
-                time.sleep(10)
+                if(os.path.exists("./data/receive/model/client_infer_resnet18_cifar10.pdiparams") and
+                os.path.exists("./data/receive/model/client_infer_resnet18_cifar10.pdmodel")):
+                    tensor = edge_load_model(path_prefix="./data/receive/model/client_infer_resnet18_cifar10")
+                    send_tensor(conn, tensor, index)
+                    index += 1
+                    time.sleep(10)
                 # for filename in glob.glob(r'data/send/tensor/*.txt'):
                 #     if(filename not in tensor_dict):
                 #         tensor_dict.append(filename)
