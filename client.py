@@ -82,5 +82,6 @@ def recv_tensor(client):
     while len(view):
         nrecv = client.recv_into(view)
         view = view[nrecv:]
-    results = cloud_load_tensor(path_prefix="./data/send/model/server_infer_resnet18_cifar10",tensor=tensor)
-    print("File {}\t Result:{}".format(filename, results))
+    results, costtime = cloud_load_tensor(path_prefix="./data/send/model/server_infer_resnet18_cifar10",tensor=tensor)
+    print("Cloud cost {}s infer Tensor {}".format(costtime, filename))
+    print("Tensor {}\t Result:{}".format(filename, results))

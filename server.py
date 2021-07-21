@@ -46,7 +46,8 @@ def send_loop(type):
                 if(os.path.exists("./data/receive/model/client_infer_resnet18_cifar10.pdiparams") and
                 os.path.exists("./data/receive/model/client_infer_resnet18_cifar10.pdmodel")):
                     time.sleep(5)
-                    tensor = edge_load_model(path_prefix="./data/receive/model/client_infer_resnet18_cifar10")
+                    tensor, costtime = edge_load_model(path_prefix="./data/receive/model/client_infer_resnet18_cifar10")
+                    print("Edge cost {}s infer Tensor {} ".format(costtime, index))
                     send_tensor(conn, tensor, index)
                     index += 1
                 # for filename in glob.glob(r'data/send/tensor/*.txt'):
@@ -91,7 +92,7 @@ def send_tensor(conn, tensor, name):
     while len(view):
         nsent = conn.send(view)
         view = view[nsent:]
-    print("\nTensor {} ({} MB) send finish.".format(name, round(tensorsize/1000,2)))
+    print("\nTensor {} ({} MB) send finish.\t Shape: {}".format(name, round(tensorsize/1000,2), tensor.shape))
 
 
 if __name__ == '__main__':

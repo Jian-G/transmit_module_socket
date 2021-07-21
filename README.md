@@ -6,7 +6,9 @@
 - `server.py`：服务端发送文件，对于云发送分割模型，对于端发送tensor；
 - `cloud.py`：启动云的发送和接收线程；
 - `edge.py`：启动端的发送和接收线程；
-- `core.py`：常量定义，包括host、port、buffersize等内容
+- `core.py`：常量定义，包括host、port、buffersize等内容；
+- `load_model`：模型部署函数，包括云和端加载方法；
+- `zip.py`：数据压缩，包括5种算法库，已封装；
 - data：数据存放文件夹（在示例中：模型暂存为.pdparams文件，tensor暂存为.txt文件）
     - send：发送文件夹
         - model：云要发送的切割模型
